@@ -10,10 +10,10 @@ public class EventTriggerListener : UnityEngine.EventSystems.EventTrigger
     public delegate void ObjectDelegate(GameObject go, GameObject obj);
     public delegate void KeyCodeDelegate(GameObject go, KeyCode key);
     public VoidDelegate onClick;
-    public VoidDelegate onDown;
+    public VectorDelegate onDown;
+    public VectorDelegate onUp;
     public VoidDelegate onEnter;
     public VoidDelegate onExit;
-    public VoidDelegate onUp;
     public VoidDelegate onSelect;
     public VoidDelegate onUpdateSelect;
     public VectorDelegate onBeginDrag;
@@ -44,7 +44,12 @@ public class EventTriggerListener : UnityEngine.EventSystems.EventTrigger
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (onDown != null)
-            onDown(gameObject);
+            onDown(gameObject, eventData.position);
+    }
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        if (onUp != null)
+            onUp(gameObject, eventData.position);
     }
     public override void OnPointerEnter(PointerEventData eventData)
     {
@@ -55,11 +60,6 @@ public class EventTriggerListener : UnityEngine.EventSystems.EventTrigger
     {
         if (onExit != null)
             onExit(gameObject);
-    }
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        if (onUp != null)
-            onUp(gameObject);
     }
     public override void OnSelect(BaseEventData eventData)
     {
@@ -74,12 +74,12 @@ public class EventTriggerListener : UnityEngine.EventSystems.EventTrigger
     public override void OnBeginDrag(PointerEventData eventData)
     {
         if (onBeginDrag != null)
-            onBeginDrag(gameObject, eventData.delta);
+            onBeginDrag(gameObject, eventData.position);
     }
-    public virtual void OnDrag(PointerEventData eventData)
+    public override void OnDrag(PointerEventData eventData)
     {
         if (onDrag != null)
-            onDrag(gameObject, eventData.delta);
+            onDrag(gameObject, eventData.position);
     }
     public override void OnMove(AxisEventData eventData)
     {
