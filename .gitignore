@@ -3,5 +3,6 @@ Temp/
 Assembly-CSharp.csproj
 Library/
 Puzzle.CSharp.csproj
+Puzzle.CSharp.Editor.csproj
 Puzzle.sln
 Puzzle.userprefs
