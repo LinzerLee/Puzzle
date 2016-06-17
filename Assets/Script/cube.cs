@@ -6,9 +6,8 @@ public class cube : MonoBehaviour {
     private static Dictionary<string, Transform> cubes = new Dictionary<string, Transform>();
     private SpriteRenderer sr;
     private Image image;
-    private RaycastHit hit = new RaycastHit();
-    private bool back_to_cubeboard = false;
     private Transform parent;
+
     // Use this for initialization
     void Start () {
         parent = transform.parent;
@@ -42,43 +41,103 @@ public class cube : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        
-        if (Input.GetMouseButtonDown(0))
+        if (Input.touchCount > 0)
         {
-            MoveTo(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if(back_to_cubeboard)
+            Touch touch = Input.GetTouch(0);
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000))
             {
-                sr.enabled = false;
-                sr.sortingLayerName = "UI";
-                transform.SetParent(parent);
-                image.enabled = true;
-                back_to_cubeboard = false;
+                // 触摸移动
+                if (Input.touchCount == 1)
+                {
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        OnMouseDown();
+                    }
+                    else if (touch.phase == TouchPhase.Moved)
+                    {
+                        MoveTo(Camera.main.ScreenToWorldPoint(touch.position));
+                    }
+                    else if (touch.phase == TouchPhase.Ended)
+                    {
+                        OnMouseUp();
+                    }
+                }
+                // 触摸旋转
+                else if(Input.touchCount == 2)
+                {
+
+                }
+            }
+        } 
+    }
+
+    void OnMouseUp()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (transform.parent == null)
+            {
+                float scope = 170f / 1024f * Camera.main.pixelHeight;
+                if (Input.mousePosition.y < scope)
+                {
+                    sr.enabled = false;
+                    sr.sortingLayerName = "UI";
+                    transform.SetParent(parent);
+                    image.enabled = true;
+
+                }
+                else
+                {
+                    sr.sortingLayerName = "Playboard";
+                }
             }
         }
     }
 
-    void OnCollisionEnter( Collision collisionInfo )
+    void OnMouseDown()
     {
-        if(collisionInfo.gameObject.name.Equals("Cubeboard"))
+        if (Input.GetMouseButtonDown(0))
         {
-            back_to_cubeboard = true;
+            sr.sortingLayerName = "TouchHover";
         }
     }
 
-    void OnCollisionExit(Collision collisionInfo)
+    void OnMouseDrag()
     {
-        if (collisionInfo.gameObject.name.Equals("Cubeboard"))
+        MoveTo(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+    } 
+
+    void OnMouseOver()
+    {
+        if (transform.parent == null)
         {
-            back_to_cubeboard = false;
+            //Zoom out
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                transform.Rotate(.0f, .0f, -5.0f);
+            }
+            //Zoom in
+            else if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                transform.Rotate(.0f, .0f, 5.0f);
+            }
         }
+    }
+
+    private void MoveDetal(Vector3 detal)
+    {
+        transform.Translate(detal.x, detal.y, 0);
     }
 
     private void MoveTo(Vector3 pos)
     {
+        pos.z = 0;
+        /*
         pos -= transform.position;
         transform.Translate(pos.x, pos.y, 0);
+        */
+        transform.position = pos;
     }
 }
