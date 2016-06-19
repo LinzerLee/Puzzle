@@ -7,6 +7,20 @@ public class cube : MonoBehaviour {
     private SpriteRenderer sr;
     private Image image;
     private Transform parent;
+    private float _angle = .0f;
+
+    public float Angle
+    {
+        get
+        {
+            return _angle;
+        }
+
+        set
+        {
+            _angle = ((int)value + 360) % 360;
+        }
+    }
 
     // Use this for initialization
     void Start () {
@@ -94,6 +108,13 @@ public class cube : MonoBehaviour {
                 }
             }
         }
+        else if (Input.GetMouseButtonUp(2))
+        {
+            if (transform.parent == null)
+            {
+                Debug.Log("RButton");
+            }
+        }
     }
 
     void OnMouseDown()
@@ -116,12 +137,14 @@ public class cube : MonoBehaviour {
             //Zoom out
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                transform.Rotate(.0f, .0f, -5.0f);
+                // transform.Rotate(.0f, .0f, -5.0f);
+                Rotate(-5.0f);
             }
             //Zoom in
             else if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                transform.Rotate(.0f, .0f, 5.0f);
+                // transform.Rotate(.0f, .0f, 5.0f);
+                Rotate(5.0f);
             }
         }
     }
@@ -139,5 +162,16 @@ public class cube : MonoBehaviour {
         transform.Translate(pos.x, pos.y, 0);
         */
         transform.position = pos;
+    }
+
+    private void RotateTo(float angle)
+    {
+        Angle = angle;
+        transform.rotation = Quaternion.AngleAxis(Angle, new Vector3(0, 0, 1));
+    }
+
+    private void Rotate(float angle)
+    {
+        RotateTo(Angle + angle);
     }
 }
