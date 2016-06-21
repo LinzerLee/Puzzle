@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using PuzzleSceneUtil;
 
 public class cube : MonoBehaviour {
     private static Dictionary<string, Transform> cubes = new Dictionary<string, Transform>();
@@ -8,6 +9,8 @@ public class cube : MonoBehaviour {
     private Image image;
     private Transform parent;
     private float _angle = .0f;
+	private float last_touch_begin = .0f;
+	private bool is_flip = false;
 
     public float Angle
     {
@@ -105,14 +108,24 @@ public class cube : MonoBehaviour {
                 else
                 {
                     sr.sortingLayerName = "Playboard";
+					List<State> states = ResourceManager.GetPosition(name);
+
+					foreach (State state in states) 
+					{
+						// Debug.Log ("R : " + state.R + " Angle : " + Angle);
+						// Debug.Log ("F : " + state.IsFliped + " is_flip : " + is_flip);
+						if (state.IsFliped == is_flip && state.R == Angle) 
+						{
+							Debug.Log ("X : " + state.X + " Y : " + state.Y + " F : " + state.IsFliped);
+							Vector3 pos = new Vector3 ((float)state.X, (float)state.Y, 0f);
+							if (Vector3.Distance (transform.position, pos) <= 5) 
+							{
+								MoveTo(Camera.main.ScreenToWorldPoint(pos));
+								break;
+							}
+						}
+					}
                 }
-            }
-        }
-        else if (Input.GetMouseButtonUp(2))
-        {
-            if (transform.parent == null)
-            {
-                Debug.Log("RButton");
             }
         }
     }
@@ -121,7 +134,18 @@ public class cube : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            sr.sortingLayerName = "TouchHover";
+			if (Time.time - last_touch_begin < 0.6) 
+			{
+				is_flip = !is_flip;
+				RotateTo (Angle);
+				last_touch_begin = .0f;
+			} 
+			else 
+			{
+				last_touch_begin = Time.time;
+			}
+
+			sr.sortingLayerName = "TouchHover";
         }
     }
 
@@ -137,13 +161,11 @@ public class cube : MonoBehaviour {
             //Zoom out
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                // transform.Rotate(.0f, .0f, -5.0f);
                 Rotate(-5.0f);
             }
             //Zoom in
             else if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                // transform.Rotate(.0f, .0f, 5.0f);
                 Rotate(5.0f);
             }
         }
@@ -167,7 +189,14 @@ public class cube : MonoBehaviour {
     private void RotateTo(float angle)
     {
         Angle = angle;
-        transform.rotation = Quaternion.AngleAxis(Angle, new Vector3(0, 0, 1));
+		if (is_flip) 
+		{
+			transform.rotation = Quaternion.AngleAxis(180.0f, new Vector3(0, 1, 0));
+			transform.Rotate(0, 0, Angle);
+		} else 
+		{
+			transform.rotation = Quaternion.AngleAxis(Angle, new Vector3(0, 0, 1));
+		}
     }
 
     private void Rotate(float angle)
