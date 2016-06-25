@@ -112,13 +112,62 @@ public class cube : MonoBehaviour {
 
 					foreach (State state in states) 
 					{
-						// Debug.Log ("R : " + state.R + " Angle : " + Angle);
-						// Debug.Log ("F : " + state.IsFliped + " is_flip : " + is_flip);
-						if (state.IsFliped == is_flip && state.R == Angle) 
+                        double angle = state.R;
+                        if (!state.IsFliped)
+                            angle = (360 - state.R) % 360;
+
+                        Debug.Log ("R : " + angle + " Angle : " + Angle);
+						Debug.Log ("F : " + state.IsFliped + " is_flip : " + is_flip);
+						if (state.IsFliped == is_flip && angle == Angle) 
 						{
-							Debug.Log ("X : " + state.X + " Y : " + state.Y + " F : " + state.IsFliped);
-							Vector3 pos = new Vector3 ((float)state.X, (float)state.Y, 0f);
-							if (Vector3.Distance (transform.position, pos) <= 5) 
+                            Vector3 pos = new Vector3 ((float)state.X, (float)state.Y, 0f);
+                            Vector3 offset = new Vector3(0f, 0f, 0f);
+                            switch(name)
+                            {
+                                case "cube_1_1":
+                                    offset.x = 50f;
+                                    offset.y = 25f;
+                                    break;
+                                case "cube_2_1":
+                                case "cube_2_2":
+                                    offset.x = 25f;
+                                    offset.y = 25f;
+                                    break;
+                                case "cube_3_1":
+                                case "cube_3_2":
+                                    offset.x = 50f;
+                                    offset.y = 25f;
+                                    break;
+                                case "cube_4_1":
+                                case "cube_4_2":
+                                    offset.x = 25f;
+                                    offset.y = 37.5f;
+                                    break;
+                                case "cube_5_1":
+                                case "cube_5_2":
+                                    offset.x = 37.5f;
+                                    offset.y = 25f;
+                                    break;
+                                case "cube_6_1":
+                                case "cube_6_2":
+                                case "cube_6_3":
+                                case "cube_6_4":
+                                    offset.x = 12.5f;
+                                    offset.y = 12.5f;
+                                    break;
+                                case "cube_7_1":
+                                case "cube_7_2":
+                                    offset.x = 16.67f;
+                                    break;
+                            }
+                            pos += offset;
+                            pos.x = pos.x / ResourceManager.resolution.Width * Screen.width;
+                            pos.y = Screen.height - pos.y / ResourceManager.resolution.Height * Screen.height;
+                            
+                            Debug.Log("X : " + pos.x + " Y : " + pos.y + " F : " + state.IsFliped);
+                            Debug.Log("Cube ：X : " + Input.mousePosition.x + " Y : " + Input.mousePosition.y + " F : " + is_flip);
+                            Debug.Log(Vector3.Distance(Input.mousePosition, pos));
+                            if (Vector3.Distance (Input.mousePosition, pos) <= 10) 
 							{
 								MoveTo(Camera.main.ScreenToWorldPoint(pos));
 								break;
@@ -137,15 +186,12 @@ public class cube : MonoBehaviour {
 			if (Time.time - last_touch_begin < 0.6) 
 			{
 				is_flip = !is_flip;
-				RotateTo (Angle);
-				last_touch_begin = .0f;
-			} 
-			else 
-			{
-				last_touch_begin = Time.time;
-			}
+                RotateTo(Angle);
+            }
 
-			sr.sortingLayerName = "TouchHover";
+            last_touch_begin = Time.time;
+
+            sr.sortingLayerName = "TouchHover";
         }
     }
 

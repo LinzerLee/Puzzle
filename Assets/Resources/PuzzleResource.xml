@@ -23,6 +23,8 @@
     </ResolutionRes>
     <SizeRes>
       <Int>85</Int>
+      <Int>50</Int>
+      <Int>100</Int>
     </SizeRes>
     <BackgroundRes>
       <String>scene1_1</String>
@@ -35,13 +37,13 @@
       <Scene name="1.1" background="scene1_1">
         <SceneResol width="768" height="1024" device="ipad" size="85">
           <Programme id="1">
-            <Cube type="1">(28,368,45)f</Cube>
-            <Cube type="2">(25,463,225)#(88,401,225)</Cube>
-            <Cube type="3">(91,303,225)#(94,244,315)</Cube>
+            <Cube type="1">(28,372,45)f</Cube>
+            <Cube type="2">(26,461,225)#(86,402,225)</Cube>
+            <Cube type="3">(91,310,225)#(94,249,315)</Cube>
             <Cube type="4">(621,624,90)f#(435,624,270)</Cube>
             <Cube type="5">(581,578,225)f#(456,579,225)f</Cube>
-            <Cube type="6">(58,554,45)#(529,544,315)#(539,641,225)#(163,451,45)</Cube>
-            <Cube type="7">(535,607,0)#(474,518,225)</Cube>
+            <Cube type="6">(57,553,45)#(529,544,315)#(539,641,225)#(162,451,45)</Cube>
+            <Cube type="7">(536,628,0)#(481,518,225)</Cube>
           </Programme>
         </SceneResol>
       </Scene>
