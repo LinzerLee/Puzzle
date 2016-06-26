@@ -9,7 +9,7 @@ public class camera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*
+		
 		if (Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -46,7 +46,7 @@ public class camera : MonoBehaviour {
 				}
 			}
 		}
-		*/
+
 	}
 
 	void OnGUI()

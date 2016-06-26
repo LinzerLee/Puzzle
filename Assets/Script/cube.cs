@@ -59,6 +59,92 @@ public class cube : MonoBehaviour {
     {
     }
 
+	public static bool CheckCompleted()
+	{
+		GameObject[] gos = GameObject.FindGameObjectsWithTag ("cube");
+		Vector3 pos;
+		foreach (GameObject go in gos) {
+			if (!go.GetComponent<cube>().CheckPosition(Camera.main.WorldToScreenPoint(go.transform.position), out pos)) 
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public bool CheckPosition(Vector3 input_pos, out Vector3 pos)
+	{
+		pos = new Vector3 (0f, 0f, 0f);
+		List<State> states = ResourceManager.GetPosition(name);
+
+		foreach (State state in states) 
+		{
+			double angle = state.R;
+			if (!state.IsFliped)
+				angle = (360 - state.R) % 360;
+
+			// Debug.Log ("R : " + angle + " Angle : " + Angle);
+			// Debug.Log ("F : " + state.IsFliped + " is_flip : " + is_flip);
+			if (state.IsFliped == is_flip && angle == Angle) 
+			{
+				pos = new Vector3 ((float)state.X, (float)state.Y, 0f);
+				Vector3 offset = new Vector3(0f, 0f, 0f);
+				switch(name)
+				{
+				case "cube_1_1":
+					offset.x = 50f;
+					offset.y = 25f;
+					break;
+				case "cube_2_1":
+				case "cube_2_2":
+					offset.x = 25f;
+					offset.y = 25f;
+					break;
+				case "cube_3_1":
+				case "cube_3_2":
+					offset.x = 50f;
+					offset.y = 25f;
+					break;
+				case "cube_4_1":
+				case "cube_4_2":
+					offset.x = 25f;
+					offset.y = 37.5f;
+					break;
+				case "cube_5_1":
+				case "cube_5_2":
+					offset.x = 37.5f;
+					offset.y = 25f;
+					break;
+				case "cube_6_1":
+				case "cube_6_2":
+				case "cube_6_3":
+				case "cube_6_4":
+					offset.x = 12.5f;
+					offset.y = 12.5f;
+					break;
+				case "cube_7_1":
+				case "cube_7_2":
+					offset.x = 16.67f;
+					break;
+				}
+				pos += offset;
+				pos.x = pos.x / ResourceManager.resolution.Width * Screen.width;
+				pos.y = Screen.height - pos.y / ResourceManager.resolution.Height * Screen.height;
+
+				// Debug.Log("X : " + pos.x + " Y : " + pos.y + " F : " + state.IsFliped);
+				// Debug.Log("Cube ：X : " + Input.mousePosition.x + " Y : " + Input.mousePosition.y + " F : " + is_flip);
+				// Debug.Log(Vector3.Distance(Input.mousePosition, pos));
+				if (Vector2.Distance (new Vector2(input_pos.x, input_pos.y), new Vector2(pos.x, pos.y)) <= 20) 
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void OnMouseUp()
     {
 		if (Input.GetMouseButtonUp(0))
@@ -78,75 +164,18 @@ public class cube : MonoBehaviour {
                 else
                 {
 					sr.sortingLayerName = "Playboard";
-					List<State> states = ResourceManager.GetPosition(name);
-					Debug.Log ("states : " + states.Count);
-					foreach (State state in states) 
+					Vector3 pos;
+					if (CheckPosition(Input.mousePosition, out pos)) 
 					{
-                        double angle = state.R;
-                        if (!state.IsFliped)
-                            angle = (360 - state.R) % 360;
-
-                        Debug.Log ("R : " + angle + " Angle : " + Angle);
-						Debug.Log ("F : " + state.IsFliped + " is_flip : " + is_flip);
-						if (state.IsFliped == is_flip && angle == Angle) 
-						{
-                            Vector3 pos = new Vector3 ((float)state.X, (float)state.Y, 0f);
-                            Vector3 offset = new Vector3(0f, 0f, 0f);
-                            switch(name)
-                            {
-                                case "cube_1_1":
-                                    offset.x = 50f;
-                                    offset.y = 25f;
-                                    break;
-                                case "cube_2_1":
-                                case "cube_2_2":
-                                    offset.x = 25f;
-                                    offset.y = 25f;
-                                    break;
-                                case "cube_3_1":
-                                case "cube_3_2":
-                                    offset.x = 50f;
-                                    offset.y = 25f;
-                                    break;
-                                case "cube_4_1":
-                                case "cube_4_2":
-                                    offset.x = 25f;
-                                    offset.y = 37.5f;
-                                    break;
-                                case "cube_5_1":
-                                case "cube_5_2":
-                                    offset.x = 37.5f;
-                                    offset.y = 25f;
-                                    break;
-                                case "cube_6_1":
-                                case "cube_6_2":
-                                case "cube_6_3":
-                                case "cube_6_4":
-                                    offset.x = 12.5f;
-                                    offset.y = 12.5f;
-                                    break;
-                                case "cube_7_1":
-                                case "cube_7_2":
-                                    offset.x = 16.67f;
-                                    break;
-                            }
-                            pos += offset;
-                            pos.x = pos.x / ResourceManager.resolution.Width * Screen.width;
-                            pos.y = Screen.height - pos.y / ResourceManager.resolution.Height * Screen.height;
-                            
-                            Debug.Log("X : " + pos.x + " Y : " + pos.y + " F : " + state.IsFliped);
-                            Debug.Log("Cube ：X : " + Input.mousePosition.x + " Y : " + Input.mousePosition.y + " F : " + is_flip);
-                            Debug.Log(Vector3.Distance(Input.mousePosition, pos));
-                            if (Vector3.Distance (Input.mousePosition, pos) <= 10) 
-							{
-								MoveTo(Camera.main.ScreenToWorldPoint(pos));
-								break;
-							}
+						MoveTo(Camera.main.ScreenToWorldPoint(pos));
+						if (CheckCompleted ()) {
+							Debug.Log ("CheckCompleted");
 						}
 					}
                 }
             }
         }
+		CheckCompleted ();
     }
 
 	public void OnMouseDown()

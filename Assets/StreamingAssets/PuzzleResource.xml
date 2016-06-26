@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Puzzle>
+  <PuzzleRes>
+    <SectionRes>
+      <String>凤求凰</String>
+    </SectionRes>
+    <MusicRes>
+      <String>回梦游仙</String>
+    </MusicRes>
+    <SceneRes>
+      <String>1.1</String>
+      <String>1.2</String>
+      <String>1.3</String>
+    </SceneRes>
+    <ResolutionRes>
+      <Resolution width="960" height="640">iphone 4</Resolution>
+      <Resolution width="1136" height="640">iphone 5(s)</Resolution>
+      <Resolution width="1334" height="750">iphone 6</Resolution>
+      <Resolution width="1920" height="1080">iphone 6 plus</Resolution>
+      <Resolution width="1536" height="2048">ipad_retina</Resolution>
+      <Resolution width="2048" height="1536">ipad_retina_1</Resolution>
+      <Resolution width="768" height="1024">ipad</Resolution>
+    </ResolutionRes>
+    <SizeRes>
+      <Int>85</Int>
+      <Int>50</Int>
+      <Int>100</Int>
+    </SizeRes>
+    <BackgroundRes>
+	  <String>scene1_1</String>
+      <String>scene1_2</String>
+      <String>scene1_3</String>
+    </BackgroundRes>
+  </PuzzleRes>
+  <GameRes>
+    <Section name="凤求凰" music="回梦游仙">
+      <Scene name="1.1" background="scene1_1">
+        <SceneResol width="768" height="1024" device="ipad" size="85">
+          <Programme id="1">
+            <Cube type="1">(32,368,45)f</Cube>
+            <Cube type="2">(27,457,225)#(87,397,225)</Cube>
+            <Cube type="3">(92.0000000000001,305,225)#(95,247,315)</Cube>
+            <Cube type="4">(621,621,90)f#(432,622,270)</Cube>
+            <Cube type="5">(573,578,225)f#(453,579,225)f</Cube>
+            <Cube type="6">(72,531,45)#(522,544,315)#(539,634,225)#(161,441,45)</Cube>
+            <Cube type="7">(536,625,0)#(474,515,225)</Cube>
+          </Programme>
+        </SceneResol>
+      </Scene>
+      <Scene name="1.2" background="scene1_2">
+        <SceneResol width="768" height="1024" device="ipad" size="85">
+          <Programme id="1">
+            <Cube type="1">(79,548,0)f</Cube>
+            <Cube type="2">(148,546,180)#(21,334,0)</Cube>
+            <Cube type="3">(125,331,180)#(41,332,0)</Cube>
+            <Cube type="4">(168,427,0)f#(155,647,0)</Cube>
+            <Cube type="5">(29,549,0)#(34,486,225)f</Cube>
+            <Cube type="6">(252,352,225)#(101,628,270)#(58,628,270)#(14,628,270)</Cube>
+            <Cube type="7">(586,137,230)#(43,420,225)</Cube>
+          </Programme>
+        </SceneResol>
+      </Scene>
+      <Scene name="1.3" background="scene1_3">
+        <SceneResol width="768" height="1024" device="ipad" size="85">
+          <Programme id="1">
+            <Cube type="1">(623,606,0)f</Cube>
+            <Cube type="2">(579,694,180)#(695,603,180)</Cube>
+            <Cube type="3">(536,514,180)#(801,218,180)</Cube>
+            <Cube type="4">(451,591,90)f#(430,656,0)f</Cube>
+            <Cube type="5">(573,608,0)#(498,724,135)</Cube>
+            <Cube type="6">(680,558,50)#(490,540,135)#(376,643,0)#(374,597,180)</Cube>
+            <Cube type="7">(179,199,130)#(577,483,225)</Cube>
+          </Programme>
+        </SceneResol>
+      </Scene>
+    </Section>
+  </GameRes>
+</Puzzle>

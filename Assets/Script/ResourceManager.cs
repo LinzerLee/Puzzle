@@ -15,13 +15,7 @@ public static class ResourceManager {
 	{
 		resolution.Width = 768;
 		resolution.Height = 1024;
-		Debug.Log (GetRootPath() + "/StreamingAssets/" + res_xml);
-		PuzzleXMLResource.Load(GetRootPath() + "/StreamingAssets/" + res_xml);
-	}
-
-	public static string GetRootPath()
-	{
-		return Application.dataPath.Substring (0, Application.dataPath.Length - 5);
+		PuzzleXMLResource.Load(Application.streamingAssetsPath + "/" + res_xml);
 	}
 
 	public static List<State> GetPosition(string name)
