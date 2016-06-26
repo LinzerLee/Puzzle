@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using PuzzleSceneUtil;
 
 public class cube : MonoBehaviour {
-    private static Dictionary<string, Transform> cubes = new Dictionary<string, Transform>();
     private SpriteRenderer sr;
     private Image image;
     private Transform parent;
@@ -58,47 +57,18 @@ public class cube : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            Ray ray = Camera.main.ScreenPointToRay(touch.position);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 1000))
-            {
-                // 触摸移动
-                if (Input.touchCount == 1)
-                {
-                    if (touch.phase == TouchPhase.Began)
-                    {
-                        OnMouseDown();
-                    }
-                    else if (touch.phase == TouchPhase.Moved)
-                    {
-                        MoveTo(Camera.main.ScreenToWorldPoint(touch.position));
-                    }
-                    else if (touch.phase == TouchPhase.Ended)
-                    {
-                        OnMouseUp();
-                    }
-                }
-                // 触摸旋转
-                else if(Input.touchCount == 2)
-                {
-
-                }
-            }
-        } 
     }
 
-    void OnMouseUp()
+	public void OnMouseUp()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
+		if (Input.GetMouseButtonUp(0))
+		{
             if (transform.parent == null)
             {
-                float scope = 170f / 1024f * Camera.main.pixelHeight;
+				float scope = 170f / 1024f * Camera.main.pixelHeight;
                 if (Input.mousePosition.y < scope)
                 {
+					ResourceManager.cur_cube = null;
                     sr.enabled = false;
                     sr.sortingLayerName = "UI";
                     transform.SetParent(parent);
@@ -107,9 +77,9 @@ public class cube : MonoBehaviour {
                 }
                 else
                 {
-                    sr.sortingLayerName = "Playboard";
+					sr.sortingLayerName = "Playboard";
 					List<State> states = ResourceManager.GetPosition(name);
-
+					Debug.Log ("states : " + states.Count);
 					foreach (State state in states) 
 					{
                         double angle = state.R;
@@ -179,10 +149,11 @@ public class cube : MonoBehaviour {
         }
     }
 
-    void OnMouseDown()
+	public void OnMouseDown()
     {
         if (Input.GetMouseButtonDown(0))
         {
+			ResourceManager.cur_cube = GetComponent<cube> ();
 			if (Time.time - last_touch_begin < 0.6) 
 			{
 				is_flip = !is_flip;
@@ -195,12 +166,12 @@ public class cube : MonoBehaviour {
         }
     }
 
-    void OnMouseDrag()
+	public void OnMouseDrag()
     {
         MoveTo(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     } 
 
-    void OnMouseOver()
+	void OnMouseOver()
     {
         if (transform.parent == null)
         {
@@ -217,22 +188,18 @@ public class cube : MonoBehaviour {
         }
     }
 
-    private void MoveDetal(Vector3 detal)
+    public void MoveDetal(Vector3 detal)
     {
         transform.Translate(detal.x, detal.y, 0);
     }
 
-    private void MoveTo(Vector3 pos)
+	public void MoveTo(Vector3 pos)
     {
         pos.z = 0;
-        /*
-        pos -= transform.position;
-        transform.Translate(pos.x, pos.y, 0);
-        */
         transform.position = pos;
     }
 
-    private void RotateTo(float angle)
+    public void RotateTo(float angle)
     {
         Angle = angle;
 		if (is_flip) 
@@ -245,8 +212,8 @@ public class cube : MonoBehaviour {
 		}
     }
 
-    private void Rotate(float angle)
+    public void Rotate(float angle)
     {
-        RotateTo(Angle + angle);
+		RotateTo(Angle + angle);
     }
 }

@@ -9,13 +9,19 @@ public static class ResourceManager {
 	public static PuzzleSceneUtil.Resolution resolution = new PuzzleSceneUtil.Resolution ();
 	public static int size;
 	public static string music;
+	public static cube cur_cube = null;
 
 	static ResourceManager()
 	{
 		resolution.Width = 768;
 		resolution.Height = 1024;
+		Debug.Log (GetRootPath() + "/StreamingAssets/" + res_xml);
+		PuzzleXMLResource.Load(GetRootPath() + "/StreamingAssets/" + res_xml);
+	}
 
-		PuzzleXMLResource.Load(Application.dataPath + "/Resources/" + res_xml);
+	public static string GetRootPath()
+	{
+		return Application.dataPath.Substring (0, Application.dataPath.Length - 5);
 	}
 
 	public static List<State> GetPosition(string name)
