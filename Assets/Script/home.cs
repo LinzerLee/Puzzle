@@ -22,13 +22,11 @@ public class home : MonoBehaviour {
 
 	void OnStartBtnDown(GameObject go, Vector2 detal)
 	{
-		Debug.Log ("OnStartBtnDown");
 		start.image.sprite = Resources.Load<Sprite>("home/start");
 	}
 
 	void OnStartBtnUp(GameObject go, Vector2 detal)
 	{
-		Debug.Log ("OnStartBtnUp");
 		start.image.sprite = Resources.Load<Sprite>("home/start");
 		SceneManager.LoadScene("select");
 	}

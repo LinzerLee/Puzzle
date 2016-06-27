@@ -169,18 +169,14 @@ public class cube : MonoBehaviour {
 					{
 						MoveTo(Camera.main.ScreenToWorldPoint(pos));
 						if (CheckCompleted ()) {
-							Button	back, hint, restart, go;
-
-							back = GameObject.Find("back").GetComponent<Button>();
-							hint = GameObject.Find("hint").GetComponent<Button>();
-							restart = GameObject.Find("restart").GetComponent<Button>();
-							go = GameObject.Find("go").GetComponent<Button>();
-							/*
-							back.enabled = false;
-							hint.enabled = false;
-							restart.enabled = false;
-							go.enabled = true;
-							*/
+							GameObject playboard = GameObject.Find("Playboard");
+							playboard.transform.Find("back").gameObject.SetActive(false);
+							playboard.transform.Find("hint").gameObject.SetActive(false);
+							playboard.transform.Find("restart").gameObject.SetActive(false);
+							playboard.transform.Find("Cubeboard").gameObject.SetActive(false);
+							playboard.transform.Find("poetry").gameObject.SetActive (true);
+							playboard.transform.Find("go").gameObject.SetActive(true);
+							GameObject.Find("Playboard").GetComponent<Image>().sprite = Resources.Load<Sprite>("success");
 						}
 					}
                 }

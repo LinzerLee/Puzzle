@@ -7,7 +7,9 @@ public class select : MonoBehaviour {
 	Button	retBtn;
 	// Use this for initialization
 	void Start () {
-		retBtn = GameObject.Find("return").GetComponent<Button>();
+		GameObject playboard = GameObject.Find("Playboard");
+
+		retBtn = playboard.transform.Find("return").GetComponent<Button>();
 
 		EventTriggerListener.Get(retBtn.gameObject).onDown += OnStartBtnDown;
 		EventTriggerListener.Get(retBtn.gameObject).onUp += OnStartBtnUp;

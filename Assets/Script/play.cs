@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class play : MonoBehaviour {
 	Button	back, hint, restart, go;
-
 	// Use this for initialization
 	void Start () {
-		back = GameObject.Find("back").GetComponent<Button>();
-		hint = GameObject.Find("hint").GetComponent<Button>();
-		restart = GameObject.Find("restart").GetComponent<Button>();
+		GameObject playboard = GameObject.Find("Playboard");
+
+		back = playboard.transform.Find("back").GetComponent<Button>();
+		hint = playboard.transform.Find("hint").GetComponent<Button>();
+		restart = playboard.transform.Find("restart").GetComponent<Button>();
+		go = playboard.transform.Find("go").GetComponent<Button>();
 
 		EventTriggerListener.Get(back.gameObject).onDown += OnBackBtnDown;
 		EventTriggerListener.Get(back.gameObject).onUp += OnBackBtnUp;
@@ -18,12 +20,17 @@ public class play : MonoBehaviour {
 		EventTriggerListener.Get(hint.gameObject).onUp += OnHintBtnUp;
 		EventTriggerListener.Get(restart.gameObject).onDown += OnRestartBtnDown;
 		EventTriggerListener.Get(restart.gameObject).onUp += OnRestartBtnUp;
+		EventTriggerListener.Get(go.gameObject).onDown += OnGoBtnDown;
+		EventTriggerListener.Get(go.gameObject).onUp += OnGoBtnUp;
+
+		go.gameObject.SetActive (false);
 	}
 
-	// () 与界面相关Template ... go
-	void Awake()
+	void Awake() 
 	{
-		
+		GameObject.Find("go").SetActive (false);
+		GameObject.Find("poetry").SetActive (false);
+		GameObject.Find("Playboard").GetComponent<Image>().sprite = Resources.Load<Sprite>("playboard");
 	}
 	// Update is called once per frame
 	void Update () {
@@ -117,4 +124,14 @@ public class play : MonoBehaviour {
 		restart.image.sprite = Resources.Load<Sprite>("play/restart");
 	}
 
+	void OnGoBtnDown(GameObject gob, Vector2 detal)
+	{
+		go.image.sprite = Resources.Load<Sprite>("play/go_hover");
+	}
+
+	void OnGoBtnUp(GameObject gob, Vector2 detal)
+	{
+		go.image.sprite = Resources.Load<Sprite>("play/go");
+		SceneManager.LoadScene("select");
+	} 
 }
