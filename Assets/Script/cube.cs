@@ -76,7 +76,7 @@ public class cube : MonoBehaviour {
 	public bool CheckPosition(Vector3 input_pos, out Vector3 pos)
 	{
 		pos = new Vector3 (0f, 0f, 0f);
-		List<State> states = ResourceManager.GetPosition(name);
+		List<State> states = RuntimeManager.GetPosition(name);
 
 		foreach (State state in states) 
 		{
@@ -129,8 +129,8 @@ public class cube : MonoBehaviour {
 					break;
 				}
 				pos += offset;
-				pos.x = pos.x / ResourceManager.resolution.Width * Screen.width;
-				pos.y = Screen.height - pos.y / ResourceManager.resolution.Height * Screen.height;
+				pos.x = pos.x / RuntimeManager.resolution.Width * Screen.width;
+				pos.y = Screen.height - pos.y / RuntimeManager.resolution.Height * Screen.height;
 
 				// Debug.Log("X : " + pos.x + " Y : " + pos.y + " F : " + state.IsFliped);
 				// Debug.Log("Cube ：X : " + Input.mousePosition.x + " Y : " + Input.mousePosition.y + " F : " + is_flip);
@@ -154,7 +154,7 @@ public class cube : MonoBehaviour {
 				float scope = 170f / 1024f * Camera.main.pixelHeight;
                 if (Input.mousePosition.y < scope)
                 {
-					ResourceManager.cur_cube = null;
+					RuntimeManager.cur_cube = null;
                     sr.enabled = false;
                     sr.sortingLayerName = "UI";
                     transform.SetParent(parent);
@@ -169,7 +169,18 @@ public class cube : MonoBehaviour {
 					{
 						MoveTo(Camera.main.ScreenToWorldPoint(pos));
 						if (CheckCompleted ()) {
-							Debug.Log ("CheckCompleted");
+							Button	back, hint, restart, go;
+
+							back = GameObject.Find("back").GetComponent<Button>();
+							hint = GameObject.Find("hint").GetComponent<Button>();
+							restart = GameObject.Find("restart").GetComponent<Button>();
+							go = GameObject.Find("go").GetComponent<Button>();
+							/*
+							back.enabled = false;
+							hint.enabled = false;
+							restart.enabled = false;
+							go.enabled = true;
+							*/
 						}
 					}
                 }
@@ -182,7 +193,7 @@ public class cube : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-			ResourceManager.cur_cube = GetComponent<cube> ();
+			RuntimeManager.cur_cube = GetComponent<cube> ();
 			if (Time.time - last_touch_begin < 0.6) 
 			{
 				is_flip = !is_flip;
