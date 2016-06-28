@@ -174,7 +174,7 @@ public class cube : MonoBehaviour {
 							playboard.transform.Find("hint").gameObject.SetActive(false);
 							playboard.transform.Find("restart").gameObject.SetActive(false);
 							playboard.transform.Find("Cubeboard").gameObject.SetActive(false);
-                            playboard.transform.Find("poetry").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("poetry_" + RuntimeManager.scene.Replace('.', '_'));
+                            playboard.transform.Find("poetry").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("poetry/poetry_" + RuntimeManager.scene.Replace('.', '_'));
                             playboard.transform.Find("poetry").gameObject.SetActive (true);
 							playboard.transform.Find("go").gameObject.SetActive(true);
 							GameObject.Find("Playboard").GetComponent<Image>().sprite = Resources.Load<Sprite>("success");
