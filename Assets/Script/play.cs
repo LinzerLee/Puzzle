@@ -30,8 +30,9 @@ public class play : MonoBehaviour {
 	{
 		GameObject.Find("go").SetActive (false);
 		GameObject.Find("poetry").SetActive (false);
+        GameObject.Find("Template").GetComponent<Image>().sprite = Resources.Load<Sprite>("bg/scene" + RuntimeManager.scene.Replace('.', '_'));
 		GameObject.Find("Playboard").GetComponent<Image>().sprite = Resources.Load<Sprite>("playboard");
-	}
+    }
 	// Update is called once per frame
 	void Update () {
 		
@@ -73,7 +74,7 @@ public class play : MonoBehaviour {
 		}
 
 	}
-
+    /*
 	void OnGUI()
 	{
 		if (GUI.Button (new Rect (50, 50, 50, 50), "-5")) 
@@ -92,7 +93,7 @@ public class play : MonoBehaviour {
 			}
 		}
 	}
-
+    */
 	void OnBackBtnDown(GameObject go, Vector2 detal)
 	{
 		back.image.sprite = Resources.Load<Sprite>("play/back_hover");
@@ -132,6 +133,6 @@ public class play : MonoBehaviour {
 	void OnGoBtnUp(GameObject gob, Vector2 detal)
 	{
 		go.image.sprite = Resources.Load<Sprite>("play/go");
-		SceneManager.LoadScene("select");
+        SceneManager.LoadScene("select");
 	} 
 }

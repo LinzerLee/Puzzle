@@ -4,8 +4,8 @@ using PuzzleSceneUtil;
 
 public static class RuntimeManager {
 	public static string res_xml = "PuzzleResource.xml";
-	public static string section = "凤求凰";
-	public static string scene = "1.1";
+	public static string section;
+	public static string scene;
 	public static PuzzleSceneUtil.Resolution resolution = new PuzzleSceneUtil.Resolution ();
 	public static int size;
 	public static string music;
@@ -15,7 +15,9 @@ public static class RuntimeManager {
 	{
 		resolution.Width = 768;
 		resolution.Height = 1024;
-		PuzzleXMLResource.Load(Application.streamingAssetsPath + "/" + res_xml);
+        section = PlayerPrefs.GetString("section", "凤求凰");
+        scene = PlayerPrefs.GetString("scene", "1.1");
+        PuzzleXMLResource.Load(Application.streamingAssetsPath + "/" + res_xml);
 	}
 
 	public static List<State> GetPosition(string name)
@@ -24,6 +26,32 @@ public static class RuntimeManager {
 		string[] st = name.Split(separator);
 		return GetPosition(int.Parse (st [1]));
 	}
+
+    public static void UnlockNextScene()
+    {
+        bool flag = false;
+        foreach(Section sec in PuzzleXMLResource.GameRes.Sections)
+        {
+            if(sec.Name.Equals(section) || flag)
+            {
+                foreach (Scene sce in sec.Scenes)
+                {
+                    if(sce.Name.Equals(scene))
+                    {
+                        flag = true;
+                        continue;
+                    }
+                    else if(flag)
+                    {
+                        section = sec.Name;
+                        scene = sce.Name;
+                        return;
+                    }
+
+                }
+            }
+        }
+    }
 
 	public static List<State> GetPosition(int type)
 	{
