@@ -123,7 +123,8 @@ public class play : MonoBehaviour {
 	void OnRestartBtnUp(GameObject go, Vector2 detal)
 	{
 		restart.image.sprite = Resources.Load<Sprite>("play/restart");
-	}
+        SceneManager.LoadScene("play");
+    }
 
 	void OnGoBtnDown(GameObject gob, Vector2 detal)
 	{
@@ -133,6 +134,8 @@ public class play : MonoBehaviour {
 	void OnGoBtnUp(GameObject gob, Vector2 detal)
 	{
 		go.image.sprite = Resources.Load<Sprite>("play/go");
+        RuntimeManager.section = RuntimeManager.unlock_section;
+        RuntimeManager.scene = RuntimeManager.unlock_scene;
         SceneManager.LoadScene("select");
 	} 
 }

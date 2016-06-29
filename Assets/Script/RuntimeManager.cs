@@ -6,7 +6,9 @@ public static class RuntimeManager {
 	public static string res_xml = "PuzzleResource.xml";
 	public static string section;
 	public static string scene;
-	public static PuzzleSceneUtil.Resolution resolution = new PuzzleSceneUtil.Resolution ();
+    public static string unlock_section;
+    public static string unlock_scene;
+    public static PuzzleSceneUtil.Resolution resolution = new PuzzleSceneUtil.Resolution ();
 	public static int size;
 	public static string music;
 	public static cube cur_cube = null;
@@ -15,8 +17,10 @@ public static class RuntimeManager {
 	{
 		resolution.Width = 768;
 		resolution.Height = 1024;
-        section = PlayerPrefs.GetString("section", "凤求凰");
-        scene = PlayerPrefs.GetString("scene", "1.1");
+        unlock_section = PlayerPrefs.GetString("unlock_section", "凤求凰");
+        unlock_scene = PlayerPrefs.GetString("unlock_scene", "1.1");
+        section = unlock_section;
+        scene = unlock_scene;
         PuzzleXMLResource.Load(Application.streamingAssetsPath + "/" + res_xml);
 	}
 
@@ -32,19 +36,22 @@ public static class RuntimeManager {
         bool flag = false;
         foreach(Section sec in PuzzleXMLResource.GameRes.Sections)
         {
-            if(sec.Name.Equals(section) || flag)
+            if(sec.Name.Equals(unlock_section) || flag)
             {
                 foreach (Scene sce in sec.Scenes)
                 {
-                    if(sce.Name.Equals(scene))
+                    if(sce.Name.Equals(unlock_scene))
                     {
                         flag = true;
                         continue;
                     }
                     else if(flag)
                     {
-                        section = sec.Name;
-                        scene = sce.Name;
+                        unlock_section = sec.Name;
+                        unlock_scene = sce.Name;
+
+                        PlayerPrefs.SetString("unlock_section", RuntimeManager.unlock_section);
+                        PlayerPrefs.SetString("unlock_scene", RuntimeManager.unlock_scene);
                         return;
                     }
 

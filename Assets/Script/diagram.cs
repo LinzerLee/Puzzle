@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement; 
 
 public class diagram : MonoBehaviour {
-
+    public string scene;
 	// Use this for initialization
 	void Start () {
 	
@@ -16,10 +16,11 @@ public class diagram : MonoBehaviour {
 
 	void OnMouseUp()
 	{
-		// 准备场景数据--RuntimeManager
-		// RuntimeManager.scene
-		// RuntimeManager.section
-		// 切换场景
+        // 准备场景数据--RuntimeManager
+        // RuntimeManager.scene
+        // RuntimeManager.section
+        // 切换场景
+        RuntimeManager.scene = scene;
 		SceneManager.LoadScene("play");
 	}
 }

@@ -180,8 +180,6 @@ public class cube : MonoBehaviour {
 							GameObject.Find("Playboard").GetComponent<Image>().sprite = Resources.Load<Sprite>("success");
 
                             RuntimeManager.UnlockNextScene();
-                            PlayerPrefs.SetString("section", RuntimeManager.section);
-                            PlayerPrefs.SetString("scene", RuntimeManager.scene);
                         }
 					}
                 }
